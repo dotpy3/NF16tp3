@@ -217,7 +217,9 @@ t_ludotheque* fusion(t_ludotheque *ludo1, t_ludotheque *ludo2) {
 int main() {
 	t_ludotheque *ludotest,*ludotest2;
 	t_jeu *jeutest1;
-	int nbLudos = 0, choixtri = 0, choix = 0, choixLudo = 0, choixLudo2 = 0, genreTMP, minTMP, maxTMP, dureeTMP;
+	int nbLudos = 0, choixtri = 0, choix = 0, choixLudo = 0, choixLudo2 = 0, genreTMP, minTMP, maxTMP, dureeTMP, ludoCreee[2];
+	ludoCreee[0]=0;
+	ludoCreee[1]=0;
 	int param1, param2, param3; //param1 : nbJoueurs, param2 : duree, param3 : genre
 	char nomTMP[40];
 
@@ -240,9 +242,11 @@ int main() {
 				printf("====> CREATION DE LUDOTHEQUE\n\nQuelle ludothèque voulez-vous créer ? (1/2)\n> ");
 				scanf("%d",&choixLudo);
 				if(choixLudo == 1)
-					ludotest = creer_ludotheque();
+					{ludotest = creer_ludotheque();
+					ludoCreee[0] = 1;}
 				else
-					ludotest2 = creer_ludotheque();
+					{ludotest2 = creer_ludotheque();
+					ludoCreee[1] = 1;}
 				choix=0;
 				printf("\n");
 				break;
@@ -252,6 +256,11 @@ int main() {
 					printf("Quelle ludothèque voulez-vous afficher ?\n> ");
 					scanf("%d",&choixLudo);
 				} while (choixLudo != 1 && choixLudo != 2);
+				if(ludoCreee[choixLudo] == 0){
+					printf("La ludothèque en question n'a pas encore été créée !\n\n");
+					choix=0;
+					break;
+				}
 				printf("\n");
 				if(choixLudo == 1)
 					affiche_ludotheque(ludotest);
@@ -266,6 +275,11 @@ int main() {
 					printf("Quelle ludothèque voulez-vous utiliser ?\n> ");
 					scanf("%d",&choixLudo);
 				} while (choixLudo != 1 && choixLudo != 2);
+				if(ludoCreee[choixLudo] == 0){
+					printf("La ludothèque en question n'a pas encore été créée !\n\n");
+					choix=0;
+					break;
+				}
 				jeutest1 = malloc(sizeof(t_jeu));
 				printf("Ecrivez le nom du jeu :\n> ");
 				scanf("%s",&nomTMP);
@@ -293,6 +307,11 @@ int main() {
 					printf("Dans quelle ludothèque voulez-vous rechercher ?\n> ");
 					scanf("%d",&choixLudo);
 				} while (choixLudo != 1 && choixLudo != 2);
+				if(ludoCreee[choixLudo] == 0){
+					printf("La ludothèque en question n'a pas encore été créée !\n\n");
+					choix=0;
+					break;
+				}
 				printf("De quel genre doit être le jeu ? (0 : plateau, 1 : RPG, 2 : coopératif, 3 : ambiance, 4 : hasard)\n> ");
 				scanf("%d",&param3);
 				printf("Pour combien de joueurs doit convenir le jeu ? (tapez -1 pour négliger)\n> ");
@@ -308,6 +327,11 @@ int main() {
 				break;
 			case 5: // doit créer une ludothèque
 				printf("====> FUSION DES LUDOTHEQUES\n\nOn fusionne les deux ludothèques.\n");
+				if(ludoCreee[0] == 0 || ludoCreee[1] == 0){
+					printf("Impossible de fusionner tant que les 2 ludothèques n'ont pas été créées !\n\n");
+					choix=0;
+					break;
+				}
 				printf("\nLudothèque 1 :\n");
 				affiche_ludotheque(ludotest);
 				printf("\nLudothèque 2 :\n");
