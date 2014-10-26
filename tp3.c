@@ -98,6 +98,13 @@ int ajouter_jeu(t_ludotheque *ludo, t_jeu *j) {
 int retirer_jeu(t_ludotheque *ludo, char *nom) {
 	t_jeu *iter, *temp;
 	iter = ludo->debut;
+	if (iter->nom == nom){
+		temp = iter;
+		ludo->debut = temp->suivant;
+		ludo->nb_jeu--;
+		free(temp);
+		return 1;
+	}
 	while(iter != NULL && iter->suivant != NULL && (iter->suivant)->nom != nom)
 		iter = iter->suivant;
 	if ((iter->suivant)->nom == nom) {
