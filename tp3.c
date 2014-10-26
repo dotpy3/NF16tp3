@@ -239,7 +239,7 @@ int main() {
 	while (choix != 6) {
 		switch(choix) {
 			case 1: // doit créer une ludothèque
-				printf("====> CREATION DE LUDOTHEQUE\n\nQuelle ludothèque voulez-vous créer ? (1/2)\n> ");
+				printf("====> CREATION DE LUDOTHEQUE\n\nSi la ludothèque existe déjà, elle sera remplacée.\nQuelle ludothèque voulez-vous créer ? (1/2)\n> ");
 				scanf("%d",&choixLudo);
 				if(choixLudo == 1)
 					{ludotest = creer_ludotheque();
