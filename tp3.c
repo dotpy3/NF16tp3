@@ -38,7 +38,7 @@ int triAlphabetique(char *c1, char *c2) {
 	// la fonction rend prioritairement les chaines en minuscule
 	// c1 et c2 doivent être des tableaux
 	int i, longC1 = sizeof(c1), longC2 = sizeof(c2), plusGrand, max;
-	
+
 	if (longC1 < longC2) {
 		plusGrand = 2;
 		max = longC1;
@@ -49,14 +49,14 @@ int triAlphabetique(char *c1, char *c2) {
 		plusGrand = 0;
 		max = longC1;
 	}
-	
+
 	for (i=0;i<max;i++) {
 		if (c1[i] < c2[i])
 			return 1;
 		else if (c2[i] < c1[i])
 			return 2;
 	}
-	
+
 	if (plusGrand == 0)
 		return 0;
 	else if (plusGrand == 2)
@@ -129,7 +129,7 @@ void supprimer_ludotheque(t_ludotheque *ludo) {
 void affiche_ludotheque(t_ludotheque *ludo) {
 	int i;
 	char *tabTypes[5]={"PLATEAU", "RPG", "COOPERATIF", "AMBIANCE", "HASARD"};
-	
+
 	if(ludo->debut == NULL) {
 		printf("Aucun jeu dans la ludotheque.\n");
 	}
@@ -152,10 +152,10 @@ t_ludotheque* requete_jeu(t_ludotheque *ludo, genre_jeu genre, int nbJoueurs, in
 	nLudo->nb_jeu = 0;
 	nLudo->debut=NULL;
 	int i;
-	
+
 	for (i=0; i<(ludo->nb_jeu); i++) {
 		iter = (i==0) ? ludo->debut : iter->suivant;
-		
+
 		if (nbJoueurs == -1 && duree == -1) {
 			if(genre == iter->genre)
 				ajouter_jeu(nLudo,iter);
@@ -179,10 +179,10 @@ int doublons(t_jeu *j, t_ludotheque *ludo) {
 	t_jeu *temp = ludo->debut;
 	if(temp == NULL)
 		return 0;
-	
+
 	while(temp->suivant != NULL && (temp->nom != j->nom || temp->nbJoueurMax != j->nbJoueurMax || temp->nbJoueurMin != j->nbJoueurMax || j->genre != temp->genre || j->duree != temp->duree))
 		temp=temp->suivant;
-	
+
 	return (temp->nom != j->nom || temp->nbJoueurMax != j->nbJoueurMax || temp->nbJoueurMin != j->nbJoueurMax || j->genre != temp->genre || j->duree != temp->duree) ? 1 : 0;
 }
 
@@ -190,12 +190,12 @@ t_ludotheque* fusion(t_ludotheque *ludo1, t_ludotheque *ludo2) {
 	t_ludotheque *nLudo;
 	nLudo = malloc(sizeof(t_ludotheque));
 	t_jeu *iter = ludo1->debut;
-	
+
 	while(iter != NULL) {
 		ajouter_jeu(nLudo,iter);
 		iter=iter->suivant;
 	}
-	
+
 	iter = ludo2->debut;
 	while(iter != NULL) {
 		if(doublons(iter, ludo2))
@@ -231,7 +231,7 @@ void triLudo(t_ludotheque *ludo, int tri) {
 					jTemp3 = ludo->debut;
 					while(jTemp3->suivant != NULL && triAlphabetique(jTemp->nom,jTemp3->suivant->nom) == 2)
 						jTemp3 = jTemp3->suivant;
-					
+
 					if(jTemp3->suivant == NULL) {
 						jTemp3->suivant = jTemp;
 					} else {
@@ -248,7 +248,7 @@ void triLudo(t_ludotheque *ludo, int tri) {
 					jTemp3 = ludo->debut;
 					while((jTemp3->suivant != NULL) && (jTemp->nbJoueurMin > jTemp3->suivant->nbJoueurMin))
 						jTemp3 = jTemp3->suivant;
-					
+
 					if(jTemp3->suivant == NULL) {
 						jTemp3->suivant = jTemp;
 					} else {
@@ -265,7 +265,7 @@ void triLudo(t_ludotheque *ludo, int tri) {
 					jTemp3 = ludo->debut;
 					while(jTemp3->suivant != NULL && triAlphabetique(&jTemp->genre,&jTemp3->suivant->genre) == 2)
 						jTemp3 = jTemp3->suivant;
-					
+
 					if(jTemp3->suivant == NULL) {
 						jTemp3->suivant = jTemp;
 					} else {
@@ -282,7 +282,7 @@ void triLudo(t_ludotheque *ludo, int tri) {
 					jTemp3 = ludo->debut;
 					while((jTemp3->suivant != NULL) && (jTemp->duree > jTemp3->suivant->duree))
 						jTemp3 = jTemp3->suivant;
-					
+
 					if(jTemp3->suivant == NULL) {
 						jTemp3->suivant = jTemp;
 					} else {
@@ -299,7 +299,7 @@ void triLudo(t_ludotheque *ludo, int tri) {
 					jTemp3 = ludo->debut;
 					while(jTemp3->suivant != NULL && triAlphabetique(jTemp->nom,jTemp3->suivant->nom) == 2)
 						jTemp3 = jTemp3->suivant;
-					
+
 					if(jTemp3->suivant == NULL) {
 						jTemp3->suivant = jTemp;
 					} else {
@@ -318,7 +318,7 @@ int main() {
 	int nbLudos = 0, choixtri = 0, choix = 0, choixLudo = 0, choixLudo2 = 0, genreTMP, minTMP, maxTMP, dureeTMP;
 	int param1, param2, param3; //param1 : nbJoueurs, param2 : duree, param3 : genre
 	char nomTMP[40];
-	
+
     /*
       L'entier choix détermine ce qui doit se passer dans la boucle.
       0 : doit afficher le menu
@@ -331,12 +331,12 @@ int main() {
       6 : Crée 2 ludothèques, les affiche, les fusionne, et affiche la nouvelle ludothèque
       7 : doit quitter
     */
-	
-	while (choix != 7) {
+
+	while (choix != 6) {
 		switch(choix) {
 			case 0:
 				printf("\nQue voulez-vous faire ?\n");
-				printf("1 : Crée une ludothèque\n2 : Affiche une ludothèque\n3 : Demande le tri et l'affichage d'une ludothèque pour les différents champs (par nom, par nombre de joueur minimum, par genre, par durée)\n4 : Ajoute un jeu dans la ludothèque en saisissant ses caractéristiques\n5 : Effectue une recherche de jeu à partir des critères de l'utilisateur\n6 : Crée 2 ludothèques, les affiche, les fusionne, et affiche la nouvelle ludothèque\n7 : Quitter le programme\n");
+				printf("1 : Crée une ludothèque\n2 : Affiche une ludothèque\n3 : Ajoute un jeu dans la ludothèque en saisissant ses caractéristiques\n4 : Effectue une recherche de jeu à partir des critères de l'utilisateur\n5 : Crée 2 ludothèques, les affiche, les fusionne, et affiche la nouvelle ludothèque\n6 : Quitter le programme\n");
 				scanf("%d",&choix);
 				break;
 			case 1: // doit créer une ludothèque
@@ -360,22 +360,6 @@ int main() {
 				choix = 0;
 				break;
 			case 3:
-				printf("Comment voulez-vous trier : par nom (0), nombre de joueurs minimum (1), genre (2), durée (3) ?");
-				scanf("%d",&choixtri);
-				do {
-					printf("Quelle ludothèque voulez-vous afficher ?\n");
-					scanf("%d",&choixLudo);
-				} while (choixLudo != 1 && choixLudo != 2);
-				if(choixLudo == 1) {
-					triLudo(ludotest,choixtri);
-					affiche_ludotheque(ludotest);
-				} else {
-					triLudo(ludotest2,choixtri);
-					affiche_ludotheque(ludotest2);
-				}
-				choix = 0;
-				break;
-			case 4:
 				do {
 					printf("Quelle ludothèque voulez-vous utiliser ?\n");
 					scanf("%d",&choixLudo);
@@ -400,9 +384,9 @@ int main() {
 					ajouter_jeu(ludotest2,jeutest1);
 				choix = 0;
 				break;
-			case 5:
+			case 4:
 				do {
-					printf("Quelle ludothèque voulez-vous afficher ?\n");
+					printf("Dans quelle ludothèque voulez-vous rechercher ?\n");
 					scanf("%d",&choixLudo);
 				} while (choixLudo != 1 && choixLudo != 2);
 				printf("De quel genre doit être le jeu ? (0 : plateau, 1 : RPG, 2 : coopératif, 3 : ambiance, 4 : hasard)\n");
@@ -417,7 +401,7 @@ int main() {
 					affiche_ludotheque(requete_jeu(ludotest2,param3,param1,param2));
 				choix = 0;
 				break;
-			case 6: // doit créer une ludothèque
+			case 5: // doit créer une ludothèque
 				printf("On fusionne les deux ludothèques.\n");
 				printf("\nLudothèque 1 :\n");
 				affiche_ludotheque(ludotest);
@@ -430,7 +414,7 @@ int main() {
 				break;
 			default: // retour au menu
 				printf("Que voulez-vous faire ?\n");
-				printf("1 : Crée une ludothèque\n2 : Affiche une ludothèque\n3 : Demande le tri et l'affichage d'une ludothèque pour les différents champs (par nom, par nombre de joueur minimum, par genre, par durée)\n4 : Ajoute un jeu dans la ludothèque en saisissant ses caractéristiques\n5 : Effectue une recherche de jeu à partir des critères de l'utilisateur\n6 : Crée 2 ludothèques, les affiche, les fusionne, et affiche la nouvelle ludothèque\n7 : Quitter le programme\n");
+				printf("1 : Crée une ludothèque\n2 : Affiche une ludothèque\n3 : Ajoute un jeu dans la ludothèque en saisissant ses caractéristiques\n4 : Effectue une recherche de jeu à partir des critères de l'utilisateur\n5 : Crée 2 ludothèques, les affiche, les fusionne, et affiche la nouvelle ludothèque\n6 : Quitter le programme\n");
 				scanf("%d",&choix);
 				break;
 			}
