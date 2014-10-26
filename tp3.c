@@ -205,7 +205,7 @@ t_ludotheque* fusion(t_ludotheque *ludo1, t_ludotheque *ludo2) {
 
 	iter = ludo2->debut;
 	while(iter != NULL) {
-		if(doublons(iter, ludo2))
+		if(doublons(iter, nLudo))
 			iter = iter->suivant;
 		else {
 			ajouter_jeu(nLudo, iter);
