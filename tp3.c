@@ -2,7 +2,7 @@
 
 // TODO :
 // PENSER A COMMENTER CHAQUE FONCTION
-// RESOUDRE LE PROBLEME D'INJECTION DE NOMS (QUI REMPLACE TOUS LES NOMS DE LA LUDOTHEQUE)
+// RESOUDRE LE BUG DE FUSION
 
 t_ludotheque* creer_ludotheque() {
 	/* Créé une nouvelle ludothèque et retourne un pointeur vers celle-ci */
@@ -69,17 +69,21 @@ int triAlphabetique(char *c1, char *c2) {
 int ajouter_jeu(t_ludotheque *ludo, t_jeu *j) {
 	/* Ajoute un jeu à une ludothèque */
 	if (ludo->debut == NULL) {
+		// premier cas possible : il n'y a aucun jeu dans la ludothèque
 		ludo->debut = j;
 		ludo->nb_jeu++;
 		return 1;
 	} else if (triAlphabetique(j->nom,ludo->debut->nom) == 1) {
+		// second cas possible : le premier jeu de la liste est situé après le nouveau dans l'ordre lexicographique
 		j->suivant = ludo->debut;
 		ludo->debut = j;
 		return 1;
 	} else {
 		t_jeu *jTemp = ludo->debut;
+
 		while ((jTemp->suivant != NULL) && (triAlphabetique(j->nom, (jTemp->suivant)->nom) == 2)) {
 			jTemp = jTemp->suivant;
+
 		}
 		if (jTemp->suivant != NULL) {
 			jTemp->suivant = j;
@@ -184,13 +188,12 @@ int doublons(t_jeu *j, t_ludotheque *ludo) {
 	/* Cette fonction permet de déterminer si j est déjà présent dans ludo en fonction de toutes ses caractéristiques.
 	Si oui, il renvoit 1. Sinon, il renvoit 0.*/
 	t_jeu *temp = ludo->debut;
-	if(temp == NULL)
-		return 0;
-
-	while(temp->suivant != NULL && (temp->nom != j->nom || temp->nbJoueurMax != j->nbJoueurMax || temp->nbJoueurMin != j->nbJoueurMax || j->genre != temp->genre || j->duree != temp->duree))
+	while(temp != NULL){
+		if (temp->nom == j->nom && temp->genre == j->genre && temp->nbJoueurMin == j->nbJoueurMin && temp->nbJoueurMax == j->nbJoueurMax && temp->duree == j->duree)
+			return 1;
 		temp=temp->suivant;
-
-	return (temp->nom != j->nom || temp->nbJoueurMax != j->nbJoueurMax || temp->nbJoueurMin != j->nbJoueurMax || j->genre != temp->genre || j->duree != temp->duree) ? 1 : 0;
+	}
+	return 0;
 }
 
 t_ludotheque* fusion(t_ludotheque *ludo1, t_ludotheque *ludo2) {
@@ -203,6 +206,10 @@ t_ludotheque* fusion(t_ludotheque *ludo1, t_ludotheque *ludo2) {
 		iter=iter->suivant;
 	}
 
+	printf("Etat actuel de la ludothèque :\n");
+	affiche_ludotheque(nLudo);
+	printf("On va ajouter les jeux de la ludothèque 2.");
+
 	iter = ludo2->debut;
 	while(iter != NULL) {
 		if(doublons(iter, nLudo))
@@ -212,6 +219,7 @@ t_ludotheque* fusion(t_ludotheque *ludo1, t_ludotheque *ludo2) {
 			iter = iter->suivant;
 		}
 	}
+	return nLudo;
 }
 
 int main() {
@@ -221,7 +229,7 @@ int main() {
 	ludoCreee[0]=0;
 	ludoCreee[1]=0;
 	int param1, param2, param3; //param1 : nbJoueurs, param2 : duree, param3 : genre
-	char nomTMP[40];
+	char *nomTMP;
 
     /*
       L'entier choix détermine ce qui doit se passer dans la boucle.
@@ -244,11 +252,11 @@ int main() {
 				if(choixLudo == 1)
 					{ludotest = creer_ludotheque();
 					ludoCreee[0] = 1;}
-				else
+				else if(choixLudo == 2)
 					{ludotest2 = creer_ludotheque();
 					ludoCreee[1] = 1;}
 				choix=0;
-				printf("\n");
+				printf("\nEtat de ludoCreee[%d] : %d\n\n",choixLudo,ludoCreee[choixLudo-1]);
 				break;
 			case 2:
 				printf("====> AFFICHAGE DE LUDOTHEQUE\n\n");
@@ -256,6 +264,7 @@ int main() {
 					printf("Quelle ludothèque voulez-vous afficher ?\n> ");
 					scanf("%d",&choixLudo);
 				} while (choixLudo != 1 && choixLudo != 2);
+				choixLudo--;
 				if(ludoCreee[choixLudo] == 0){
 					printf("La ludothèque en question n'a pas encore été créée !\n\n");
 					choix=0;
@@ -275,14 +284,16 @@ int main() {
 					printf("Quelle ludothèque voulez-vous utiliser ?\n> ");
 					scanf("%d",&choixLudo);
 				} while (choixLudo != 1 && choixLudo != 2);
+				choixLudo--;
 				if(ludoCreee[choixLudo] == 0){
 					printf("La ludothèque en question n'a pas encore été créée !\n\n");
 					choix=0;
 					break;
 				}
 				jeutest1 = malloc(sizeof(t_jeu));
+				nomTMP=malloc(40*sizeof(char));
 				printf("Ecrivez le nom du jeu :\n> ");
-				scanf("%s",&nomTMP);
+				scanf("%s",nomTMP);
 				printf("De quel genre est le jeu ? (0 : plateau, 1 : RPG, 2 : coopératif, 3 : ambiance, 4 : hasard)\n> ");
 				scanf("%d",&genreTMP);
 				printf("Combien de joueurs au minimum ?\n> ");
@@ -307,6 +318,7 @@ int main() {
 					printf("Dans quelle ludothèque voulez-vous rechercher ?\n> ");
 					scanf("%d",&choixLudo);
 				} while (choixLudo != 1 && choixLudo != 2);
+				choixLudo--;
 				if(ludoCreee[choixLudo] == 0){
 					printf("La ludothèque en question n'a pas encore été créée !\n\n");
 					choix=0;
