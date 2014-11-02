@@ -192,33 +192,33 @@ int doublons(t_jeu *j, t_ludotheque *ludo) {
 	Si oui, il renvoit 1. Sinon, il renvoit 0.*/
 	t_jeu *temp = ludo->debut;
 	while(temp != NULL){
-		if (temp->nom == j->nom && temp->genre == j->genre && temp->nbJoueurMin == j->nbJoueurMin && temp->nbJoueurMax == j->nbJoueurMax && temp->duree == j->duree)
+		if (triAlphabetique(temp->nom,j->nom) == 0 && temp->genre == j->genre && temp->nbJoueurMin == j->nbJoueurMin && temp->nbJoueurMax == j->nbJoueurMax && temp->duree == j->duree)
 			return 1;
 		temp=temp->suivant;
 	}
 	return 0;
 }
 
-t_ludotheque* fusion(t_ludotheque *ludo1, t_ludotheque *ludo2) {
-	t_ludotheque *nLudo;
-	nLudo = malloc(sizeof(t_ludotheque));
-	t_jeu *iter = ludo1->debut;
-
-	while(iter != NULL) {
-		ajouter_jeu(nLudo,iter);
-		iter=iter->suivant;
+t_ludotheque* fusion(t_ludotheque *ludo1, t_ludotheque *ludo2)
+{
+	t_ludotheque *ludo=creer_ludotheque();
+	t_jeu *jeu, *temp=ludo1->debut;
+	while(temp!=NULL)
+	{
+		ajouter_jeu(ludo,creer_jeu(temp->nom,temp->nbJoueurMin,temp->nbJoueurMax,temp->genre,temp->duree));
+		temp=temp->suivant;
 	}
-	printf("Ludothèque à la fin de la première phase :\n");
-	affiche_ludotheque(nLudo);
-
-	iter = ludo2->debut;
-	while(iter != NULL) {
-		if(doublons(iter,nLudo))
-			iter=iter->suivant;
-		else {
-			ajouter_jeu(nLudo,iter);
-			iter=iter->suivant;
+	//On passe aux jeux de la 2e ludothèque
+	temp=ludo2->debut;
+	while(temp!=NULL)
+	{
+		jeu=creer_jeu(temp->nom,temp->nbJoueurMin,temp->nbJoueurMax,temp->genre,temp->duree);
+		if(doublons(jeu,ludo) == 1)
+			temp=temp->suivant;
+		else{
+		  ajouter_jeu(ludo,jeu);
+		  temp=temp->suivant;
 		}
 	}
-	return nLudo;
+	return ludo;
 }
