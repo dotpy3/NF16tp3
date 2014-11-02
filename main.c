@@ -48,9 +48,9 @@ int main() {
           break;
         }
         printf("\n");
-        if(choixLudo == 1)
+        if(choixLudo == 0)
           affiche_ludotheque(ludotest);
-        else
+        else if (choixLudo == 1)
           affiche_ludotheque(ludotest2);
         choix = 0;
         printf("\n");
@@ -73,8 +73,8 @@ int main() {
         scanf("%s",nomTMP);
         printf("De quel genre est le jeu ? (0 : plateau, 1 : RPG, 2 : coopératif, 3 : ambiance, 4 : hasard)\n> ");
         scanf("%d",&genreTMP);
-        printf("Combien de joueurs au minimum ?\n> ");
-        scanf("%d",&minTMP);
+        do { printf("Combien de joueurs au minimum ? (doit être supérieur ou égal à 0)\n> ");
+        scanf("%d",&minTMP); } while (minTMP < 0);
         do {
           printf("Combien de joueurs au maximum ?\n> ");
           scanf("%d",&maxTMP);
@@ -82,9 +82,9 @@ int main() {
         printf("Quelle est la durée moyenne d'une partie en minutes ?\n> ");
         scanf("%d",&dureeTMP);
         jeutest1 = creer_jeu(nomTMP, minTMP, maxTMP, genreTMP, dureeTMP);
-        if(choixLudo == 1)
+        if(choixLudo == 0)
           ajouter_jeu(ludotest,jeutest1);
-        else
+        else if (choixLudo == 1)
           ajouter_jeu(ludotest2,jeutest1);
         choix = 0;
         printf("\n");
@@ -107,9 +107,9 @@ int main() {
         scanf("%d",&param1);
         printf("Pour quelle durée en minutes doit convenir ce jeu ? (tapez -1 pour négliger)\n> ");
         scanf("%d",&param2);
-        if(choixLudo == 1)
+        if(choixLudo == 0)
           affiche_ludotheque(requete_jeu(ludotest,param3,param1,param2));
-        else
+        else if(choixLudo == 1)
           affiche_ludotheque(requete_jeu(ludotest2,param3,param1,param2));
         choix = 0;
         printf("\n");
