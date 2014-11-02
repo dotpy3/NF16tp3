@@ -73,10 +73,11 @@ int ajouter_jeu(t_ludotheque *ludo, t_jeu *j) {
 		ludo->debut = j;
 		ludo->nb_jeu++;
 		return 1;
-	} else if (triAlphabetique(j->nom,ludo->debut->nom) == 1) {
+	} else if (triAlphabetique(j->nom,(ludo->debut)->nom) == 1) {
 		// second cas possible : le premier jeu de la liste est situé après le nouveau dans l'ordre lexicographique
 		j->suivant = ludo->debut;
 		ludo->debut = j;
+		ludo->nb_jeu++;
 		return 1;
 	} else {
 		t_jeu *jTemp = ludo->debut;
@@ -207,18 +208,16 @@ t_ludotheque* fusion(t_ludotheque *ludo1, t_ludotheque *ludo2) {
 		ajouter_jeu(nLudo,iter);
 		iter=iter->suivant;
 	}
-
-	printf("Etat actuel de la ludothèque :\n");
+	printf("Ludothèque à la fin de la première phase :\n");
 	affiche_ludotheque(nLudo);
-	printf("On va ajouter les jeux de la ludothèque 2.\n");
 
 	iter = ludo2->debut;
 	while(iter != NULL) {
-		if(doublons(iter, nLudo))
-			iter = iter->suivant;
+		if(doublons(iter,nLudo))
+			iter=iter->suivant;
 		else {
-			ajouter_jeu(nLudo, iter);
-			iter = iter->suivant;
+			ajouter_jeu(nLudo,iter);
+			iter=iter->suivant;
 		}
 	}
 	return nLudo;

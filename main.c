@@ -3,7 +3,7 @@
 int main() {
   t_ludotheque *ludotest,*ludotest2;
   t_jeu *jeutest1;
-  int nbLudos = 0, choixtri = 0, choix = 0, choixLudo = 0, choixLudo2 = 0, genreTMP, minTMP, maxTMP, dureeTMP, ludoCreee[2];
+  int choixtri = 0, choix = 0, choixLudo = 0, choixLudo2 = 0, genreTMP, minTMP, maxTMP, dureeTMP, ludoCreee[2];
   ludoCreee[0]=0;
   ludoCreee[1]=0;
   int param1, param2, param3; //param1 : nbJoueurs, param2 : duree, param3 : genre
@@ -127,7 +127,6 @@ int main() {
         affiche_ludotheque(ludotest2);
         printf("\nLudothèque finale :\n");
         affiche_ludotheque(fusion(ludotest,ludotest2));
-        nbLudos++;
         choix = 0;
         printf("\n");
         break;
