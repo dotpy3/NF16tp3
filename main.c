@@ -10,22 +10,22 @@ int main() {
   char *nomTMP;
 
     /*
-      L'entier choix détermine ce qui doit se passer dans la boucle.
+      L'entier choix determine ce qui doit se passer dans la boucle.
       0 : doit afficher le menu
-      1 : doit créer une ludothèque
-      2 : doit afficher une ludothèque
-      3 : Demande le tri et l'affichage d'une ludothèque pour les différents champs
-      (par nom, par nombre de joueur minimum, par genre, par durée)
-      4 : ajoute un jeu dans la ludothèque en saisissant ses caractéristiques
-      5 : effectue une recherche de jeu à partir des critères de l'utilisateur
-      6 : Crée 2 ludothèques, les affiche, les fusionne, et affiche la nouvelle ludothèque
+      1 : doit creer une ludotheque
+      2 : doit afficher une ludotheque
+      3 : Demande le tri et l'affichage d'une ludotheque pour les differents champs
+      (par nom, par nombre de joueur minimum, par genre, par duree)
+      4 : ajoute un jeu dans la ludotheque en saisissant ses caracteristiques
+      5 : effectue une recherche de jeu a partir des criteres de l'utilisateur
+      6 : Cree 2 ludotheques, les affiche, les fusionne, et affiche la nouvelle ludotheque
       7 : doit quitter
     */
 
-  while (choix != 6) {
+  while (choix != 7) {
     switch(choix) {
-      case 1: // doit créer une ludothèque
-        printf("====> CREATION DE LUDOTHEQUE\n\nSi la ludothèque existe déjà, elle sera remplacée.\nQuelle ludothèque voulez-vous créer ? (1/2)\n> ");
+      case 1: // doit creer une ludotheque
+        printf("====> CREATION DE LUDOTHEQUE\n\nSi la ludotheque existe deja, elle sera remplacee.\nQuelle ludotheque voulez-vous creer ? (1/2)\n> ");
         scanf("%d",&choixLudo);
         if(choixLudo == 1)
           {ludotest = creer_ludotheque();
@@ -34,16 +34,17 @@ int main() {
           {ludotest2 = creer_ludotheque();
           ludoCreee[1] = 1;}
         choix=0;
+        printf("\n");
         break;
       case 2:
         printf("====> AFFICHAGE DE LUDOTHEQUE\n\n");
         do {
-          printf("Quelle ludothèque voulez-vous afficher ?\n> ");
+          printf("Quelle ludotheque voulez-vous afficher ?\n> ");
           scanf("%d",&choixLudo);
         } while (choixLudo != 1 && choixLudo != 2);
         choixLudo--;
         if(ludoCreee[choixLudo] == 0){
-          printf("La ludothèque en question n'a pas encore été créée !\n\n");
+          printf("La ludotheque en question n'a pas encore ete creee !\n\n");
           choix=0;
           break;
         }
@@ -58,12 +59,12 @@ int main() {
       case 3:
         printf("====> AJOUT DE JEU\n\n");
         do {
-          printf("Quelle ludothèque voulez-vous utiliser ?\n> ");
+          printf("Quelle ludotheque voulez-vous utiliser ?\n> ");
           scanf("%d",&choixLudo);
         } while (choixLudo != 1 && choixLudo != 2);
         choixLudo--;
         if(ludoCreee[choixLudo] == 0){
-          printf("La ludothèque en question n'a pas encore été créée !\n\n");
+          printf("La ludotheque en question n'a pas encore ete creee !\n\n");
           choix=0;
           break;
         }
@@ -71,15 +72,15 @@ int main() {
         nomTMP=malloc(40*sizeof(char));
         printf("Ecrivez le nom du jeu :\n> ");
         scanf("%s",nomTMP);
-        printf("De quel genre est le jeu ? (0 : plateau, 1 : RPG, 2 : coopératif, 3 : ambiance, 4 : hasard)\n> ");
+        printf("De quel genre est le jeu ? (0 : plateau, 1 : RPG, 2 : cooperatif, 3 : ambiance, 4 : hasard)\n> ");
         scanf("%d",&genreTMP);
-        do { printf("Combien de joueurs au minimum ? (doit être supérieur ou égal à 0)\n> ");
+        do { printf("Combien de joueurs au minimum ? (doit etre superieur ou egal a 0)\n> ");
         scanf("%d",&minTMP); } while (minTMP < 0);
         do {
           printf("Combien de joueurs au maximum ?\n> ");
           scanf("%d",&maxTMP);
         } while (maxTMP<minTMP);
-        printf("Quelle est la durée moyenne d'une partie en minutes ?\n> ");
+        printf("Quelle est la duree moyenne d'une partie en minutes ?\n> ");
         scanf("%d",&dureeTMP);
         jeutest1 = creer_jeu(nomTMP, minTMP, maxTMP, genreTMP, dureeTMP);
         if(choixLudo == 0)
@@ -92,20 +93,20 @@ int main() {
       case 4:
         printf("====> RECHERCHE D'ELEMENTS\n\n");
         do {
-          printf("Dans quelle ludothèque voulez-vous rechercher ?\n> ");
+          printf("Dans quelle ludotheque voulez-vous rechercher ?\n> ");
           scanf("%d",&choixLudo);
         } while (choixLudo != 1 && choixLudo != 2);
         choixLudo--;
         if(ludoCreee[choixLudo] == 0){
-          printf("La ludothèque en question n'a pas encore été créée !\n\n");
+          printf("La ludotheque en question n'a pas encore ete creee !\n\n");
           choix=0;
           break;
         }
-        printf("De quel genre doit être le jeu ? (0 : plateau, 1 : RPG, 2 : coopératif, 3 : ambiance, 4 : hasard)\n> ");
+        printf("De quel genre doit etre le jeu ? (0 : plateau, 1 : RPG, 2 : cooperatif, 3 : ambiance, 4 : hasard)\n> ");
         scanf("%d",&param3);
-        printf("Pour combien de joueurs doit convenir le jeu ? (tapez -1 pour négliger)\n> ");
+        printf("Pour combien de joueurs doit convenir le jeu ? (tapez -1 pour negliger)\n> ");
         scanf("%d",&param1);
-        printf("Pour quelle durée en minutes doit convenir ce jeu ? (tapez -1 pour négliger)\n> ");
+        printf("Pour quelle duree en minutes doit convenir ce jeu ? (tapez -1 pour negliger)\n> ");
         scanf("%d",&param2);
         if(choixLudo == 0)
           affiche_ludotheque(requete_jeu(ludotest,param3,param1,param2));
@@ -114,25 +115,54 @@ int main() {
         choix = 0;
         printf("\n");
         break;
-      case 5: // doit créer une ludothèque
-        printf("====> FUSION DES LUDOTHEQUES\n\nOn fusionne les deux ludothèques.\n");
+      case 5: // doit creer une ludotheque
+        printf("====> FUSION DES LUDOTHEQUES\n\nOn fusionne les deux ludotheques.\n");
         if(ludoCreee[0] == 0 || ludoCreee[1] == 0){
-          printf("Impossible de fusionner tant que les 2 ludothèques n'ont pas été créées !\n\n");
+          printf("Impossible de fusionner tant que les 2 ludotheques n'ont pas ete creees !\n\n");
           choix=0;
           break;
         }
-        printf("\nLudothèque 1 :\n");
+        printf("\nLudotheque 1 :\n");
         affiche_ludotheque(ludotest);
-        printf("\nLudothèque 2 :\n");
+        printf("\nLudotheque 2 :\n");
         affiche_ludotheque(ludotest2);
-        printf("\nLudothèque finale :\n");
+        printf("\nLudotheque finale :\n");
         affiche_ludotheque(fusion(ludotest,ludotest2));
         choix = 0;
         printf("\n");
         break;
+      case 6:
+        printf("====> SUPPRESSION D'UN ELEMENT\n\n");
+        do {
+          printf("Dans quelle ludotheque voulez-vous supprimer un element ?\n> ");
+          scanf("%d",&choixLudo);
+        } while (choixLudo != 1 && choixLudo != 2);
+        choixLudo--;
+        if(ludoCreee[choixLudo] == 0){
+          printf("La ludotheque en question n'a pas encore ete creee !\n\n");
+          choix=0;
+          break;
+        }
+        nomTMP=malloc(40*sizeof(char));
+        printf("Ecrivez le nom du jeu :\n> ");
+        scanf("%s",nomTMP);
+        if(choixLudo == 0){
+        if(retirer_jeu(ludotest,nomTMP) == 1)
+            printf("Suppression de l'element reussie.\n");
+        else
+            printf("La suppression de l'element a echoue !\n");
+        } else if (choixLudo == 1) {
+            if(retirer_jeu(ludotest2,nomTMP) == 1)
+            printf("Suppression de l'element reussie.\n");
+        else
+            printf("La suppression de l'element a echoue !\n");
+        }
+        choix = 0;
+        printf("\n");
+        break;
       default: // retour au menu
-        printf("========> Que voulez-vous faire ?\n");
-        printf("1 : Crée une ludothèque\n2 : Affiche une ludothèque\n3 : Ajoute un jeu dans la ludothèque en saisissant ses caractéristiques\n4 : Effectue une recherche de jeu à partir des critères de l'utilisateur\n5 : Crée 2 ludothèques, les affiche, les fusionne, et affiche la nouvelle ludothèque\n6 : Quitter le programme\n> ");
+        printf("========> Que voulez-vous faire ? <========\n");
+        printf("\t1 : Cree une ludotheque\n\t2 : Affiche une ludotheque\n\t3 : Ajoute un jeu dans la ludotheque en saisissant ses caracteristiques\n\t4 : Effectue une recherche de jeu a partir de criteres donnes\n\t5 : Affiche les ludotheques, les fusionne, et affiche la nouvelle\n\t6 : Supprime un element d'une ludotheque\n\t7 : Quitter le programme\n> ");
         scanf("%d",&choix);
         printf("\n");
         break;
