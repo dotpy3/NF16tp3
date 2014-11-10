@@ -104,16 +104,16 @@ int ajouter_jeu(t_ludotheque *ludo, t_jeu *j) {
 int retirer_jeu(t_ludotheque *ludo, char *nom) {
 	t_jeu *iter, *temp;
 	iter = ludo->debut;
-	if (iter != NULL && iter->nom == nom){
+	if (iter != NULL && triAlphabetique(iter->nom,nom) == 0){
 		temp = iter;
 		ludo->debut = temp->suivant;
 		ludo->nb_jeu--;
 		free(temp);
 		return 1;
 	}
-	while(iter != NULL && iter->suivant != NULL && (iter->suivant)->nom != nom)
+	while(iter != NULL && iter->suivant != NULL && triAlphabetique((iter->suivant)->nom,nom) != 0)
 		iter = iter->suivant;
-	if ((iter->suivant)->nom == nom) {
+	if (triAlphabetique((iter->suivant)->nom,nom) == 0) {
 		temp = iter->suivant;
 		iter->suivant = temp->suivant;
 		ludo->nb_jeu--;
@@ -172,16 +172,16 @@ t_ludotheque* requete_jeu(t_ludotheque *ludo, genre_jeu genre, int nbJoueurs, in
 
 		if (nbJoueurs == -1 && duree == -1) {
 			if(genre == iter->genre)
-				ajouter_jeu(nLudo,iter);
+				ajouter_jeu(nLudo,creer_jeu(iter->nom,iter->nbJoueurMin,iter->nbJoueurMax,iter->genre,iter->duree));
 		} else if (nbJoueurs == -1) {
 			if((genre == iter->genre) && ((duree > 0.90*iter->duree) && (duree < 1.10*iter->duree)))
-				ajouter_jeu(nLudo,iter);
+				ajouter_jeu(nLudo,creer_jeu(iter->nom,iter->nbJoueurMin,iter->nbJoueurMax,iter->genre,iter->duree));
 		} else if (duree == -1) {
 			if((genre == iter->genre) && ((nbJoueurs > iter->nbJoueurMin) && (nbJoueurs < iter->nbJoueurMax)))
-				ajouter_jeu(nLudo,iter);
+				ajouter_jeu(nLudo,creer_jeu(iter->nom,iter->nbJoueurMin,iter->nbJoueurMax,iter->genre,iter->duree));
 		} else {
 			if((genre == iter->genre) && ((nbJoueurs > iter->nbJoueurMin) && (nbJoueurs < iter->nbJoueurMax)) && ((duree > 0.90*iter->duree) && (duree < 1.10*iter->duree)))
-				ajouter_jeu(nLudo,iter);
+				ajouter_jeu(nLudo,creer_jeu(iter->nom,iter->nbJoueurMin,iter->nbJoueurMax,iter->genre,iter->duree));
 		}
 	}
 	return nLudo;
