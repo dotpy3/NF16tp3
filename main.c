@@ -14,11 +14,10 @@ int main() {
       0 : doit afficher le menu
       1 : doit creer une ludotheque
       2 : doit afficher une ludotheque
-      3 : Demande le tri et l'affichage d'une ludotheque pour les differents champs
-      (par nom, par nombre de joueur minimum, par genre, par duree)
-      4 : ajoute un jeu dans la ludotheque en saisissant ses caracteristiques
-      5 : effectue une recherche de jeu a partir des criteres de l'utilisateur
-      6 : Cree 2 ludotheques, les affiche, les fusionne, et affiche la nouvelle ludotheque
+      3 : ajoute un jeu dans la ludotheque en saisissant ses caracteristiques
+      4 : effectue une recherche de jeu a partir des criteres de l'utilisateur
+      5 : Cree 2 ludotheques, les affiche, les fusionne, et affiche la nouvelle ludotheque
+      6 : Supprime un élément d'une ludothèque
       7 : doit quitter
     */
 
